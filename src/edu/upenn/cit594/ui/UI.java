@@ -1,7 +1,9 @@
 package edu.upenn.cit594.ui;
 
 import java.text.ParseException;
+import java.util.InputMismatchException;
 import java.util.Map;
+import java.util.Scanner;
 //import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
@@ -12,84 +14,97 @@ import edu.upenn.cit594.processor.txtProcessor;
 public class UI {
 	
 	private int indicator = -1;
-	private String file;
-	private String state;
-	private TreeMap<String,Integer> fluLocation;
+	private  String fileFormat;
+	private  String parkingPath;
+	private  String propertyPath;
+	private  String populationPath;
+	//private Map<String,Integer> populationMap;
 	
-	//handle the input and verify if the input format is correct.
-	public void inputHandler(String filePath, String statePath) {
+	private int inputNumber;
+	private static String pattern1 = ".*.json";
+	private static String pattern2 = ".*.csv";
+	private static String pattern3 = ".*.txt";
+	
+	public UI(String[] args) {
 		
-		String pattern1 = ".*.json";
-		
-		String pattern2 = ".*.txt";
-		
-		String pattern3 = ".*.csv";
-		
-		
-		if (Pattern.matches(pattern1,filePath)){
-			
-			file = filePath;
-			//check file existence and permissions for read
-			if(UIUtility.fileCheck(filePath)) {
-				indicator = 0;
-			}else {
-				System.out.println("The json file provided can not be read or does not exist.");
-			}
-			
-		}else if(Pattern.matches(pattern2,filePath)) {
-			
-			file = filePath;
-			//check file existence and permissions for read
-			if(UIUtility.fileCheck(filePath)) {
-				indicator = 1;
-			}else {
-				System.out.println("The txt file provided can not be read or does not exist.");
-			}
-		
-		}else {
-			
-			System.out.println("Please input right format of tweets.");
-			indicator = -1;
+		if (args.length != 5) {
+			System.out.println("Please input right number of arguments");
+			System.exit(0);
 		}
 		
-		if(Pattern.matches(pattern3, statePath)) {
-			
-			state = statePath;
-			//check file existence and permissions for read
-			if(UIUtility.fileCheck(statePath)) {
-			}else {
-				System.out.println("The csv file provided can not be read or does not exist.");
-				indicator = -1;
-			}
-			
-		}else {
-			System.out.println("Please input right format of states location.");
-			indicator = -1;
-		}
-		
-		
-		
-		
+		//set up the variables
+		fileFormat= args[0];
+		parkingPath = args[1];
+		propertyPath = args[2];
+		populationPath = args[3];
 		
 		
 	}
 	
-	//call the processor 
+	
+	
+	
+	//handle the input and verify if the input format is correct.
+	public void inputHandler() {
+		
+		if (Pattern.matches(pattern1,parkingPath) && fileFormat.contentEquals("json")){
+			
+			//check file existence and permissions for read
+			if(UIUtility.fileCheck(parkingPath)) {
+				indicator = 0;
+			}else {
+				System.out.println("The parking json file provided can not be read or does not exist.");
+				System.exit(0);
+			}
+			
+		}else if(Pattern.matches(pattern2,parkingPath) && fileFormat.contentEquals("csv")) {
+			
+			//check file existence and permissions for read
+			if(UIUtility.fileCheck(parkingPath)) {
+				indicator = 1;
+			}else {
+				System.out.println("The parking csv file provided can not be read or does not exist.");
+				System.exit(0);
+			}
+		
+		}else {
+			
+			indicator = -1;
+			System.out.println("Please input right format of parking");
+			System.exit(0);
+		}
+		
+		if(Pattern.matches(pattern2, propertyPath) && UIUtility.fileCheck(propertyPath)) {}
+			 else {
+				System.out.println("The property file provided can not be read or does not exist.");
+				indicator = -1;
+			}
+			
+		if(Pattern.matches(pattern3, propertyPath) && UIUtility.fileCheck(populationPath)) {}
+		 else {
+			System.out.println("The population file provided can not be read or does not exist.");
+			indicator = -1;
+		}
+		
+		
+	}
+	
+	//call the processor which will call reading
 	public void call() throws ParseException {
 		
 		
 		
 		if (indicator == 0) {
 			
-			jsonProcessor js = new jsonProcessor(state);
+			jsonProcessor js = new jsonProcessor(parkingPath);
 			js.process(file);
-			fluLocation = js.getFluLocation();
+			
 			
 		}else {
 			
-			txtProcessor txt = new txtProcessor(state);
+			txtProcessor txt = new txtProcessor(parkingPath);
 			txt.process(file);
-			fluLocation = txt.getFluLocation();
+			
 		}
 		
 		
@@ -105,13 +120,36 @@ public class UI {
 	//print final output to the screen
 	public void present() {
 		
-		 for (Map.Entry<String, Integer> entry : fluLocation.entrySet()) {
+		 for (Map.Entry<String, Integer> entry : populationPath.entrySet()) {
 			 
 			 System.out.println(entry.getKey() +  ": " +
                       entry.getValue());
 			 
 		 }
 	              
+		
+	}
+
+
+
+    //ask user to provide number
+	public void getNumber() {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		try {
+			inputNumber = sc.nextInt();
+			if(inputNumber <= 0 || inputNumber > 6) {
+				System.exit(0);
+			}
+			
+		} catch (InputMismatchException e) {
+		    System.out.println("Please input a number");
+		    System.exit(0);
+		}
+		  
+		sc.close();
+		// TODO Auto-generated method stub
 		
 	};
 	

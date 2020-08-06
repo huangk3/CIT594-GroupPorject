@@ -7,18 +7,13 @@ import edu.upenn.cit594.ui.UI;
 public class Main {
 	
 	//ask user to input the input from using interface
-	protected UI usercase = new UI();
-	public static String logfileName;
+	protected static UI usercase;
+	public static String logFileName;
 	
-	public void Runner(String filepath, String statePath) throws ParseException {
+	public void Runner() throws ParseException {
 		
-		//handle the input and see if the input is right.
-		usercase.inputHandler(filepath, statePath);
-		
-		if (usercase.getIndicator() < 0) {
-			
-			System.exit(0);
-		}
+		//handle the input number and see if the input number is right format
+		usercase.getNumber();
 		
 		//user case call the right class, in this process, the log file has been generated
 		usercase.call();
@@ -31,28 +26,25 @@ public class Main {
 
 
 
-public static void main(String[] args) {
+public static void main(String[] args) throws ParseException {
 	
-	if (args.length != 3) {
-		System.out.println("Please specify two file path of flu tweets and states.csv and one log file name");
-		System.exit(0);
-	}
+	//setting up the user interface;
+	usercase = new UI(args);
 	
+	//sign name to log file
+	logFileName = args[4];
 	
-	String filePath = args[0];
+	//verify if the input is valid
+	usercase.inputHandler();
 	
-	String statePath = args[1];
-	
-	logfileName = args[2];
-	
+	//Run the program and ask user to give input
 	Main test = new Main();
-	
-	try {
-		test.Runner(filePath, statePath);
-	} catch (ParseException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+	while(true) {
+		
+		test.Runner();
+		
 	}
 	
 	
-}}
+   }
+}
