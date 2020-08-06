@@ -76,14 +76,16 @@ public class UI {
 		
 		if(Pattern.matches(pattern2, propertyPath) && UIUtility.fileCheck(propertyPath)) {}
 			 else {
-				System.out.println("The property file provided can not be read or does not exist.");
 				indicator = -1;
+				System.out.println("The property file provided can not be read or does not exist.");
+				System.exit(0);
 			}
 			
 		if(Pattern.matches(pattern3, propertyPath) && UIUtility.fileCheck(populationPath)) {}
 		 else {
-			System.out.println("The population file provided can not be read or does not exist.");
 			indicator = -1;
+			System.out.println("The population file provided can not be read or does not exist.");
+			System.exit(0);
 		}
 		
 		
@@ -100,10 +102,15 @@ public class UI {
 			js.process(file);
 			
 			
-		}else {
+		}else if(indicator == 1){
 			
 			txtProcessor txt = new txtProcessor(parkingPath);
 			txt.process(file);
+			
+		}else {
+			
+			System.out.println("The indicator is set to be negative");
+			System.exit(0);
 			
 		}
 		
@@ -120,13 +127,6 @@ public class UI {
 	//print final output to the screen
 	public void present() {
 		
-		 for (Map.Entry<String, Integer> entry : populationPath.entrySet()) {
-			 
-			 System.out.println(entry.getKey() +  ": " +
-                      entry.getValue());
-			 
-		 }
-	              
 		
 	}
 
@@ -135,16 +135,21 @@ public class UI {
     //ask user to provide number
 	public void getNumber() {
 		
+		System.out.println("Please input a number");
 		Scanner sc = new Scanner(System.in);
 		
 		try {
 			inputNumber = sc.nextInt();
-			if(inputNumber <= 0 || inputNumber > 6) {
+			if(inputNumber == 0) {
+				System.out.println("The program is terminated by user");
 				System.exit(0);
+			}else if(inputNumber < 0 || inputNumber > 6) {
+				System.out.println("Error: the input is not a valid number");
+				System.exit(0);	
 			}
 			
 		} catch (InputMismatchException e) {
-		    System.out.println("Please input a number");
+		    System.out.println("Error: the input is not a valid number");
 		    System.exit(0);
 		}
 		  

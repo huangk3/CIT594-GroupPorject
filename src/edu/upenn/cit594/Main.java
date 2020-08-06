@@ -39,6 +39,7 @@ public static void main(String[] args) throws ParseException {
 	
 	//Run the program and ask user to give input
 	Main test = new Main();
+	
 	while(true) {
 		
 		test.Runner();
