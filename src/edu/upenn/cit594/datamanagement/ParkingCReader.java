@@ -16,7 +16,7 @@ public class ParkingCReader implements Reader{
 		Data parkingData = null;
 		try {parkingIn = new BufferedReader(new FileReader(filePath));
 			
-		    parkingData = readCSV(parkingIn);
+		    parkingData = CSVToData(parkingIn);
 		    
 		    return parkingData;
 		
@@ -28,7 +28,7 @@ public class ParkingCReader implements Reader{
 	}
 	
 	
-	private Data readCSV(BufferedReader parkingIn) throws IOException, ParseException {
+	private Data CSVToData(BufferedReader parkingIn) throws IOException, ParseException {
 		
 		Data parkingData = new Data();
 		

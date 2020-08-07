@@ -28,14 +28,14 @@ public class ParkingJReader implements Reader{
 		//read JSON file
 		JSONArray parkingArray = (JSONArray)parser.parse(new FileReader(filePath));
 		
-		Data parkingData = JSONtoData(parkingArray);
+		Data parkingData = JSONToData(parkingArray);
 		
 		return parkingData;
 	}
 	
 	
 	//convert JSON format into tweet format
-	private Data JSONtoData(JSONArray parkingArray) throws java.text.ParseException {
+	private Data JSONToData(JSONArray parkingArray) throws java.text.ParseException {
 		
 		Data parkingData = new Data();
 		
