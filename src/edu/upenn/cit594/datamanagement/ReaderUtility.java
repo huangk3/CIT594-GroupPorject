@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 
 import edu.upenn.cit594.data.Parking;
 import edu.upenn.cit594.data.Population;
+import edu.upenn.cit594.data.Property;
 
 public class ReaderUtility {
 	
@@ -64,6 +65,12 @@ public class ReaderUtility {
 		
 		
 		return singlePopulation;
+	}
+	
+	
+	public static Property readPropertyLine(String line) {
+		
+		return null;
 	}
 
 }

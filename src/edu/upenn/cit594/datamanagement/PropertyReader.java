@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import org.json.simple.parser.ParseException;
 
 import edu.upenn.cit594.data.Data;
-import edu.upenn.cit594.data.Parking;
+import edu.upenn.cit594.data.Property;
 
 public class PropertyReader implements Reader{
 
@@ -43,7 +43,7 @@ public class PropertyReader implements Reader{
 		while((line = parkingIn.readLine())!= null) {
 			
 			//transform the string into parking
-			Parking singleProperty = ReaderUtility.readParkingCLine(line);
+			Property singleProperty = ReaderUtility.readPropertyLine(line);
 			
 			Properties.add(singleProperty);
 					
