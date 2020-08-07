@@ -18,7 +18,7 @@ public class DataProcessor {
 		return filteredProperties;
 	}
 	
-	public int average (ArrayList<Property> properties, AverageCalculator averageCalculator) {
+	public Double average (ArrayList<Property> properties, AverageCalculator averageCalculator) {
 		return averageCalculator.calculateAverage(properties);
 	}
 	
