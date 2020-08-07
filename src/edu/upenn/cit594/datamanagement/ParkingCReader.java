@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import edu.upenn.cit594.data.Data;
 import edu.upenn.cit594.data.Parking;
 import edu.upenn.cit594.datamanagement.ReaderUtility;
-import edu.upenn.cit594.data.tweet;
 
 public class ParkingCReader implements Reader{
 	public Data read(String filePath) throws ParseException {

@@ -50,11 +50,8 @@ public class ParkingJReader implements Reader{
 			
 			//get the next JSON object
 			JSONObject parking = (JSONObject) iter.next();
-			String sLocation = parking.get("location").toString();
-			String stime = parking.get("time").toString();
-			String stxt = parking.get("text").toString();
 			
-			tempParking =  ReaderUtility.readParkingJLine(sLocation, stime, stxt);
+			tempParking =  ReaderUtility.readParkingJLine(parking);
 			
 			Parkings.add(tempParking);
 					
