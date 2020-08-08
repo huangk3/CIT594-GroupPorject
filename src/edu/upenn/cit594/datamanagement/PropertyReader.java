@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.simple.parser.ParseException;
@@ -33,26 +32,22 @@ public class PropertyReader implements Reader{
 		return propertyData;
 	}
 	
-   private Data CSVToData(BufferedReader parkingIn) throws IOException, ParseException {
+   private Data CSVToData(BufferedReader propertyIn) throws IOException, ParseException {
 		
 		Data propertyData = new Data();
 		
-		ArrayList<Object> Properties =  new ArrayList<Object>();
-		
-		String line = parkingIn.readLine();
+		String line = propertyIn.readLine();
 		
 		HashMap<String, Integer> Header = ReaderUtility.findHeader(line);
 		
-		while((line = parkingIn.readLine())!= null) {
+		while((line = propertyIn.readLine())!= null) {
 			
 			//transform the string into parking
 			Property singleProperty = ReaderUtility.readPropertyLine(line, Header);
 			
-			Properties.add(singleProperty);
+			propertyData = ReaderUtility.addData(propertyData, singleProperty);
 					
 		}
-		
-		propertyData.setData(Properties);
 		
 		return propertyData;
 		

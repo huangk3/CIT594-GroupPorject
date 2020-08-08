@@ -3,15 +3,20 @@ package edu.upenn.cit594.datamanagement;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.TreeMap;
 
 import org.json.simple.JSONObject;
 
+import edu.upenn.cit594.data.Data;
 import edu.upenn.cit594.data.Parking;
 import edu.upenn.cit594.data.Population;
 import edu.upenn.cit594.data.Property;
+import edu.upenn.cit594.data.SingleData;
 
 public class ReaderUtility {
 	
+	//read the parking json file single line
 	public static Parking readParkingJLine(JSONObject line) {
 		
 		String violationID = line.get("ticket_number").toString();
@@ -22,8 +27,8 @@ public class ReaderUtility {
 		String fine = line.get("fine").toString();
 		String state = line.get("state").toString();
 		
-		Parking singleParking = new Parking(timestamp, fine, description, 
-				vehicleID, state, violationID, zipcode);
+		Parking singleParking = new Parking(zipcode, timestamp, fine, description, 
+				vehicleID, state, violationID);
 		
 		
 		return singleParking;
@@ -31,6 +36,7 @@ public class ReaderUtility {
 		
 	}
 	
+	//read the parking csv file single line
 	public static Parking readParkingCLine(String line) {
 		
 		String[] contents = line.split(",");
@@ -44,8 +50,8 @@ public class ReaderUtility {
 		String violationID = contents[5];
 		String zipcode = contents[6];
 		
-		Parking singleParking = new Parking(timestamp, fine, description, 
-				vehicleID, state, violationID, zipcode);
+		Parking singleParking = new Parking(zipcode, timestamp, fine, description, 
+				vehicleID, state, violationID);
 		
 		
 		return singleParking;
@@ -53,6 +59,7 @@ public class ReaderUtility {
 		
 	}
 	
+	//read the population txt file single line
 	public static Population readPopulationLine(String line) {
 		
 		String[] contents = line.split(" ");
@@ -60,14 +67,14 @@ public class ReaderUtility {
 		String zipcode = contents[0];
 		
 		int populationSize = Integer.parseInt(contents[1]);
-		
+
 		Population singlePopulation = new Population(zipcode, populationSize);
-		
-		
+	
 		return singlePopulation;
 	}
 	
 	
+	//read the property csv file first line
 	public static HashMap<String, Integer> findHeader(String line) {
 		
 		String[] contents = line.split(",");
@@ -89,12 +96,53 @@ public class ReaderUtility {
 	}
 	
 	
-	
+	//read the property csv file rest of lines
 	public static Property readPropertyLine(String line, HashMap<String, Integer> header) {
 		
+        String[] tokens = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+        
+        String total = tokens[header.get("total_livable_area")];
+        
+        String value = tokens[header.get("market_value")];
+        
+        String zipcode = tokens[header.get("zip_code")].substring(0,5);
+        
+        Property singleProperty = new Property(zipcode, total, value);
 		
-		
-		return null;
+		return singleProperty;
 	}
+	
+	
+	//add single line data to full data
+	public static Data addData(Data existingData, SingleData singleData) {
+		
+		String tempCode = singleData.getZipcode();
+		
+		TreeMap<String, LinkedList<SingleData>> tempData = existingData.getData();
+		
+		if(tempData.containsKey(tempCode)) {
+			
+			LinkedList<SingleData> parkingList = tempData.get(tempCode);
+			
+			parkingList.add(singleData);
+			
+			tempData.put(tempCode, parkingList);
+			
+			
+		}else {
+			
+			LinkedList<SingleData> parkingList = new LinkedList<SingleData>();
+			
+			parkingList.add(singleData);
+			
+			tempData.put(tempCode, parkingList);
+			
+		}
+		
+		existingData.setData(tempData);
+		return existingData;
+		
+	}
+	
 
 }

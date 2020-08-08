@@ -1,16 +1,12 @@
 package edu.upenn.cit594.data;
 
-public class Population {
-	private String zipcode;
+public class Population extends SingleData{
 	private int population;
 	
-	public Population (String zipcode, int population) {
-		this.zipcode = zipcode;
-		this.population = population;
-	}
-	
-	public String getZipcode() {
-		return zipcode;
+	public Population(String zipcodeIn,int populationIn) {
+		
+		super(zipcodeIn);
+		this.population = populationIn;
 	}
 
 	public int getPopulation() {

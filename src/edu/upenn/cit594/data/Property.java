@@ -1,15 +1,20 @@
 package edu.upenn.cit594.data;
 
-public class Property {
+public class Property extends SingleData{
+	
 	private Double marketValue;
 	private Double totalLivableArea;
 	private String zipcode;
 	
-	public Property (String marketValue, String totalLivableArea, String zipcode) {
+	
+	public Property(String zipcodeIn, String marketValue, String totalLivableArea) {
+		super(zipcodeIn);
 		this.marketValue = Double.parseDouble(marketValue);
 		this.totalLivableArea = Double.parseDouble(totalLivableArea);
-		this.zipcode = zipcode;
+		// TODO Auto-generated constructor stub
 	}
+
+	
 
 	public Double getMarketValue() {
 		return marketValue;

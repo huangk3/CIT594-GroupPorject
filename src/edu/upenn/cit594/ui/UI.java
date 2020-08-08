@@ -2,29 +2,43 @@ package edu.upenn.cit594.ui;
 
 import java.text.ParseException;
 import java.util.InputMismatchException;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
 //import java.util.HashMap;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
-import edu.upenn.cit594.processor.jsonProcessor;
-import edu.upenn.cit594.processor.txtProcessor;
+import edu.upenn.cit594.data.Data;
+import edu.upenn.cit594.data.SingleData;
+
 
 public class UI {
 	
-	private int indicator = -1;
+	//input from users
 	private  String fileFormat;
 	private  String parkingPath;
 	private  String propertyPath;
 	private  String populationPath;
-	//private Map<String,Integer> populationMap;
-	
 	private int inputNumber;
+	
+	
+	//static variable for internal use
 	private static String pattern1 = ".*.json";
 	private static String pattern2 = ".*.csv";
 	private static String pattern3 = ".*.txt";
 	
+	
+	//output variable for processor use
+	//-1: illegal input format
+	//0: JSON parking format
+	//1: csv parking format
+	//2: reading finished
+	private int indicator = -1;
+	
+	
+	
+	//construct interface
 	public UI(String[] args) {
 		
 		if (args.length != 5) {
@@ -95,20 +109,21 @@ public class UI {
 	public void call() throws ParseException {
 		
 		
-		
+		//check if the indicator is valid
 		if (indicator == 0) {
 			
-			//reading file
-		    //ParkingJReader
-			jsonProcessor js = new jsonProcessor(parkingPath);
-			js.process(file);
+			//ParkingJReader being used inside
+			jsonProcessor js = new jsonProcessor(propertyPath, populationPath);
+			js.process(parkingPath);
+			indicator = 2;
 			
 			
 		}else if(indicator == 1){
 			
-			//ParkingCReader
-			txtProcessor txt = new txtProcessor(parkingPath);
-			txt.process(file);
+			//ParkingCReader being used inside
+			csvProcessor csv = new csvProcessor(propertyPath, populationPath);
+			csv.process(parkingPath);
+			indicator = 2;
 			
 		}else {
 			
@@ -159,7 +174,12 @@ public class UI {
 		sc.close();
 		// TODO Auto-generated method stub
 		
-	};
+	}
+
+
+
+
+	
 	
 	
 

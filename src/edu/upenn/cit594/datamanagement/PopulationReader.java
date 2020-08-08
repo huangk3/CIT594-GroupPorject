@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.json.simple.parser.ParseException;
 
@@ -36,8 +35,6 @@ public class PopulationReader implements Reader{
 		
 		Data populationData = new Data();
 		
-		ArrayList<Object> Population =  new ArrayList<Object>();
-		
 		String line;
 		
 		while((line = populationIn.readLine())!= null) {
@@ -45,11 +42,10 @@ public class PopulationReader implements Reader{
 			//transform the string into parking
 			Population singlePopulation = ReaderUtility.readPopulationLine(line);
 			
-			Population.add(singlePopulation);
+			populationData = ReaderUtility.addData(populationData, singlePopulation);
 					
 		}
 		
-		populationData.setData(Population);
 		
 		return populationData;
 		
