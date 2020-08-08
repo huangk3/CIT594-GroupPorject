@@ -7,9 +7,11 @@ import org.json.simple.parser.ParseException;
 
 import edu.upenn.cit594.data.Data;
 
+
 public interface Reader {
 
 	public Data read(String filePath) throws FileNotFoundException, IOException, ParseException, java.text.ParseException;
+	
 
 }
 

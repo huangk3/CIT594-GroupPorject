@@ -1,16 +1,20 @@
 package edu.upenn.cit594.data;
 
-public class Population extends SingleData{
-	private int population;
-	
-	public Population(String zipcodeIn,int populationIn) {
-		
-		super(zipcodeIn);
-		this.population = populationIn;
-	}
+import java.util.HashMap;
 
-	public int getPopulation() {
-		return population;
+public class Population {
+    private HashMap<String, Integer> populationByZipcode;
+	
+	public Population () {
+		populationByZipcode = new HashMap<String, Integer> ();
+	}
+	
+	public void add (String zipcode, int population) {
+		populationByZipcode.put(zipcode, population);
+	}
+	
+	public int getPopulation(String zipcode) {
+		return populationByZipcode.get(zipcode);
 	}
 	
 	

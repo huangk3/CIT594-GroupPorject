@@ -10,7 +10,6 @@ import org.json.simple.JSONObject;
 
 import edu.upenn.cit594.data.Data;
 import edu.upenn.cit594.data.Parking;
-import edu.upenn.cit594.data.Population;
 import edu.upenn.cit594.data.Property;
 import edu.upenn.cit594.data.SingleData;
 
@@ -59,20 +58,7 @@ public class ReaderUtility {
 		
 	}
 	
-	//read the population txt file single line
-	public static Population readPopulationLine(String line) {
-		
-		String[] contents = line.split(" ");
-		
-		String zipcode = contents[0];
-		
-		int populationSize = Integer.parseInt(contents[1]);
 
-		Population singlePopulation = new Population(zipcode, populationSize);
-	
-		return singlePopulation;
-	}
-	
 	
 	//read the property csv file first line
 	public static HashMap<String, Integer> findHeader(String line) {
