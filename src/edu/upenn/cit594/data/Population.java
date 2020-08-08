@@ -1,20 +1,20 @@
 package edu.upenn.cit594.data;
 
-public class Population {
-	private String zipcode;
-	private int population;
-	
-	public Population (String zipcode, int population) {
-		this.zipcode = zipcode;
-		this.population = population;
-	}
-	
-	public String getZipcode() {
-		return zipcode;
-	}
+import java.util.HashMap;
 
-	public int getPopulation() {
-		return population;
+public class Population {
+	private HashMap<String, Integer> populationByZipcode;
+	
+	public Population () {
+		populationByZipcode = new HashMap<String, Integer> ();
+	}
+	
+	public void add (String zipcode, int population) {
+		populationByZipcode.put(zipcode, population);
+	}
+	
+	public int getPopulation(String zipcode) {
+		return populationByZipcode.get(zipcode);
 	}
 	
 	
