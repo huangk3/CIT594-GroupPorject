@@ -8,14 +8,21 @@ public class Parking extends SingleData{
 	private String vehicleID;
 	private String state;
 	private String violationID;
-	private String zipcode;
 	
 
 	public Parking(String zipcodeIn, String timestamp, String fine, String description, 
 			String vehicleID, String state, String violationID) {
 		super(zipcodeIn);
 		this.timestamp = LocalDateTime.parse(timestamp);
-		this.fine = Double.parseDouble(fine);
+		
+		try {
+			this.fine = Double.parseDouble(fine);
+		}catch(NumberFormatException e) {
+			this.fine = null;
+			
+		}
+		
+		
 		this.description = description;
 		this.vehicleID = vehicleID;
 		this.state = state;
@@ -52,9 +59,5 @@ public class Parking extends SingleData{
 		return violationID;
 	}
 
-
-	public String getZipcode() {
-		return zipcode;
-	}
 
 }

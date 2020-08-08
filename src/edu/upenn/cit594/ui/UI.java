@@ -1,20 +1,26 @@
 package edu.upenn.cit594.ui;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.InputMismatchException;
-import java.util.LinkedList;
-import java.util.Map;
 import java.util.Scanner;
 //import java.util.HashMap;
-import java.util.TreeMap;
+
 import java.util.regex.Pattern;
 
-import edu.upenn.cit594.data.Data;
-import edu.upenn.cit594.data.SingleData;
+import edu.upenn.cit594.datamanagement.ParkingCReader;
+import edu.upenn.cit594.datamanagement.ParkingJReader;
+import edu.upenn.cit594.datamanagement.PopulationReader;
+import edu.upenn.cit594.datamanagement.PropertyReader;
+
+
 
 
 public class UI {
 	
+
+
 	//input from users
 	private  String fileFormat;
 	private  String parkingPath;
@@ -64,7 +70,7 @@ public class UI {
 		if (Pattern.matches(pattern1,parkingPath) && fileFormat.contentEquals("json")){
 			
 			//check file existence and permissions for read
-			if(UIUtility.fileCheck(parkingPath)) {
+			if(InterfaceUtility.fileCheck(parkingPath)) {
 				indicator = 0;
 			}else {
 				System.out.println("The parking json file provided can not be read or does not exist.");
@@ -74,7 +80,7 @@ public class UI {
 		}else if(Pattern.matches(pattern2,parkingPath) && fileFormat.contentEquals("csv")) {
 			
 			//check file existence and permissions for read
-			if(UIUtility.fileCheck(parkingPath)) {
+			if(InterfaceUtility.fileCheck(parkingPath)) {
 				indicator = 1;
 			}else {
 				System.out.println("The parking csv file provided can not be read or does not exist.");
@@ -88,14 +94,14 @@ public class UI {
 			System.exit(0);
 		}
 		
-		if(Pattern.matches(pattern2, propertyPath) && UIUtility.fileCheck(propertyPath)) {}
+		if(Pattern.matches(pattern2, propertyPath) && InterfaceUtility.fileCheck(propertyPath)) {}
 			 else {
 				indicator = -1;
 				System.out.println("The property file provided can not be read or does not exist.");
 				System.exit(0);
 			}
 			
-		if(Pattern.matches(pattern3, propertyPath) && UIUtility.fileCheck(populationPath)) {}
+		if(Pattern.matches(pattern3, populationPath) && InterfaceUtility.fileCheck(populationPath)) {}
 		 else {
 			indicator = -1;
 			System.out.println("The population file provided can not be read or does not exist.");
@@ -106,24 +112,41 @@ public class UI {
 	}
 	
 	//call the processor which will call reading
-	public void call() throws ParseException {
+	public void call() throws ParseException, FileNotFoundException, IOException, org.json.simple.parser.ParseException {
 		
+		
+		PropertyReader propertyRd = new PropertyReader();
+		propertyRd.read(propertyPath);
+		
+		PopulationReader populationRd = new PopulationReader();
+		populationRd.read(populationPath);
 		
 		//check if the indicator is valid
 		if (indicator == 0) {
 			
-			//ParkingJReader being used inside
-			jsonProcessor js = new jsonProcessor(propertyPath, populationPath);
-			js.process(parkingPath);
+			ParkingJReader parkingRd = new ParkingJReader();
+			
+			parkingRd.read(parkingPath);
+			
 			indicator = 2;
+			
+			//ParkingJReader being used inside
+			/*jsonProcessor js = new jsonProcessor(propertyPath, populationPath);
+			js.process(parkingPath);
+			indicator = 2;*/
 			
 			
 		}else if(indicator == 1){
 			
-			//ParkingCReader being used inside
-			csvProcessor csv = new csvProcessor(propertyPath, populationPath);
-			csv.process(parkingPath);
+			ParkingCReader parkingRd = new ParkingCReader();
+			
+			parkingRd.read(parkingPath);
+			
 			indicator = 2;
+			//ParkingCReader being used inside
+			/*csvProcessor csv = new csvProcessor(propertyPath, populationPath);
+			csv.process(parkingPath);
+			indicator = 2;*/
 			
 		}else {
 			
@@ -144,6 +167,8 @@ public class UI {
 	
 	//print final output to the screen
 	public void present() {
+		
+		System.out.println("The program finish reading");
 		
 		
 	}

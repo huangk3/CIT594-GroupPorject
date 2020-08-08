@@ -5,9 +5,14 @@ import java.util.TreeMap;
 
 //this class is for storing the data
 public class Data {
-	private TreeMap<String, LinkedList<SingleData>> fullData = new TreeMap<String, LinkedList<SingleData>>();
 	
-
+	private TreeMap<String, LinkedList<SingleData>> fullData;
+	public Data() {
+		
+		fullData = new TreeMap<String, LinkedList<SingleData>>();
+		
+	}
+	
 	//this function is for getting all the data
 	public TreeMap<String, LinkedList<SingleData>>  getData() {
 		return fullData;
