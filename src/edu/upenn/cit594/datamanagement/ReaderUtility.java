@@ -1,8 +1,8 @@
 package edu.upenn.cit594.datamanagement;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import java.util.Arrays;
+import java.util.HashMap;
 
 import org.json.simple.JSONObject;
 
@@ -68,7 +68,31 @@ public class ReaderUtility {
 	}
 	
 	
-	public static Property readPropertyLine(String line) {
+	public static HashMap<String, Integer> findHeader(String line) {
+		
+		String[] contents = line.split(",");
+		
+		HashMap<String,Integer> HeaderFound = new HashMap<String,Integer>();
+		
+		String[] Header = {"total_livable_area","market_value","building_code","zip_code"};
+		
+		for(int i = 0 ; i <contents.length; i++) {
+			if(Arrays.asList(Header).contains(contents[i])) {
+				
+				HeaderFound.put(contents[i], i);
+				
+			}
+		}
+		
+		return HeaderFound;
+		
+	}
+	
+	
+	
+	public static Property readPropertyLine(String line, HashMap<String, Integer> header) {
+		
+		
 		
 		return null;
 	}

@@ -98,12 +98,15 @@ public class UI {
 		
 		if (indicator == 0) {
 			
+			//reading file
+		    //ParkingJReader
 			jsonProcessor js = new jsonProcessor(parkingPath);
 			js.process(file);
 			
 			
 		}else if(indicator == 1){
 			
+			//ParkingCReader
 			txtProcessor txt = new txtProcessor(parkingPath);
 			txt.process(file);
 			

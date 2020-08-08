@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.simple.parser.ParseException;
 
@@ -38,12 +39,14 @@ public class PropertyReader implements Reader{
 		
 		ArrayList<Object> Properties =  new ArrayList<Object>();
 		
-		String line;
+		String line = parkingIn.readLine();
+		
+		HashMap<String, Integer> Header = ReaderUtility.findHeader(line);
 		
 		while((line = parkingIn.readLine())!= null) {
 			
 			//transform the string into parking
-			Property singleProperty = ReaderUtility.readPropertyLine(line);
+			Property singleProperty = ReaderUtility.readPropertyLine(line, Header);
 			
 			Properties.add(singleProperty);
 					
