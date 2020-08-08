@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import edu.upenn.cit594.data.Property;
 
 public class averageByMarketValue implements AverageCalculator{
-	public Double calculateAverage (ArrayList<Property> properties) {
-		if (properties == null) return 0.0;
+	public int calculateAverage (ArrayList<Property> properties) {
+		if (properties == null || properties.isEmpty()) return 0;
 		Double totalMarketValue = 0.0;
 		int count = 0;
 		for (Property p : properties ) {
@@ -16,8 +16,8 @@ public class averageByMarketValue implements AverageCalculator{
 			} 
 		}
 		
-		if (count == 0) return 0.0;
-		return totalMarketValue / count;
+		if (count == 0) return 0;
+		return (int) Math.floor(totalMarketValue / count);
 	}	
 
 }
