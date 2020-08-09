@@ -48,9 +48,10 @@ public class ParkingJReader implements Reader{
 			
 			Parking tempParking =  ReaderUtility.readParkingJLine(parking);
 			
-			parkingData = ReaderUtility.addData(parkingData, tempParking);	
-			
-					
+			if (tempParking != null) {
+				parkingData = ReaderUtility.addData(parkingData, tempParking);	
+			}
+						
 		}
 		
 		

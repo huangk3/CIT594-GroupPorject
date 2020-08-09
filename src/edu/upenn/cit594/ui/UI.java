@@ -114,7 +114,7 @@ public class UI {
 	//call the processor which will call reading
 	public void call() throws ParseException, FileNotFoundException, IOException, org.json.simple.parser.ParseException {
 		
-		
+	
 		PropertyReader propertyRd = new PropertyReader();
 		propertyRd.read(propertyPath);
 		
@@ -196,7 +196,7 @@ public class UI {
 		    System.exit(0);
 		}
 		  
-		sc.close();
+		
 		// TODO Auto-generated method stub
 		
 	}

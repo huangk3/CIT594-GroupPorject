@@ -1,8 +1,8 @@
 package edu.upenn.cit594.data;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 public class Parking extends SingleData{
-	private LocalDateTime timestamp;
+	private String timestamp;
 	private Double fine;
 	private String description;
 	private String vehicleID;
@@ -13,7 +13,7 @@ public class Parking extends SingleData{
 	public Parking(String zipcodeIn, String timestamp, String fine, String description, 
 			String vehicleID, String state, String violationID) {
 		super(zipcodeIn);
-		this.timestamp = LocalDateTime.parse(timestamp);
+		this.timestamp = ZonedDateTime.parse(timestamp).toInstant().toString();
 		
 		try {
 			this.fine = Double.parseDouble(fine);
@@ -31,7 +31,7 @@ public class Parking extends SingleData{
 	}
 
 
-	public LocalDateTime getTimestamp() {
+	public String getTimestamp() {
 		return timestamp;
 	}
 

@@ -26,12 +26,15 @@ public class ReaderUtility {
 		String fine = line.get("fine").toString();
 		String state = line.get("state").toString();
 		
-		Parking singleParking = new Parking(zipcode, timestamp, fine, description, 
+		if(zipcode.isEmpty()) {
+			return null;
+			
+		}else {Parking singleParking = new Parking(zipcode, timestamp, fine, description, 
 				vehicleID, state, violationID);
-		
-		
 		return singleParking;
-
+		
+		}	
+		
 		
 	}
 	
@@ -40,21 +43,23 @@ public class ReaderUtility {
 		
 		String[] contents = line.split(",");
 		
-		
-		String timestamp = contents[0];
-		String fine = contents[1];
-		String description = contents[2];
-		String vehicleID = contents[3];
-		String state = contents[4];
-		String violationID = contents[5];
-		String zipcode = contents[6];
-		
-		Parking singleParking = new Parking(zipcode, timestamp, fine, description, 
-				vehicleID, state, violationID);
-		
-		System.out.println(zipcode);
-		return singleParking;
-		
+		if(contents.length == 7) {
+			String timestamp = contents[0];
+			String fine = contents[1];
+			String description = contents[2];
+			String vehicleID = contents[3];
+			String state = contents[4];
+			String violationID = contents[5];
+			String zipcode = contents[6];
+			
+			Parking singleParking = new Parking(zipcode, timestamp, fine, description, 
+					vehicleID, state, violationID);
+			
+			System.out.println(zipcode);
+			return singleParking;
+			
+		}
+		return null;
 		
 	}
 	
@@ -91,7 +96,9 @@ public class ReaderUtility {
         
         String value = tokens[header.get("market_value")];
         
-        String zipcode = tokens[header.get("zip_code")].substring(0,5);
+        String rawZip = tokens[header.get("zip_code")];
+        
+        String zipcode = rawZip.substring(0,Math.min(rawZip.length(), 5));
         
         Property singleProperty = new Property(zipcode, total, value);
         System.out.println(zipcode);

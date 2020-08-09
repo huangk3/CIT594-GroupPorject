@@ -38,9 +38,9 @@ public class ParkingCReader implements Reader{
 			
 			//transform the string into parking
 			Parking singleParking = ReaderUtility.readParkingCLine(line);
-			
-			parkingData = ReaderUtility.addData(parkingData, singleParking);
-			
+			if (singleParking != null) {
+			    parkingData = ReaderUtility.addData(parkingData, singleParking);
+			}
 		}
 		
 		return parkingData;
