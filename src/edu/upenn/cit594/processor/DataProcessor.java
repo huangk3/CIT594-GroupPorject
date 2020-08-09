@@ -1,7 +1,9 @@
 package edu.upenn.cit594.processor;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 
 import edu.upenn.cit594.data.Parking;
@@ -41,7 +43,7 @@ public class DataProcessor {
 	
 	//step 6: returns the rank of number of parking violation per 100 people with the zipcode and average market value next to it.
 	
-	public TreeMap<String , BigDecimal> rankParkingViolationPer100People (ArrayList<Parking> parkingViolations) {
+	public Map<String , BigDecimal> rankParkingViolationPer100People (ArrayList<Parking> parkingViolations) {
 		TreeMap<String , BigDecimal> parkingViolationPer100People = new TreeMap<String , BigDecimal>();
 		HashMap<String , Integer> parkingViolationCount = new HashMap<String , Integer>();
 		
@@ -64,8 +66,8 @@ public class DataProcessor {
 			}
 			
 		}
-		
-		return parkingViolationPer100People;
+		Map<String , BigDecimal> sortedMap = sortByValues(parkingViolationPer100People);
+		return sortedMap;
 	}
 	
 	//return Hashmap which stores the average market value for each zipcode;
@@ -94,7 +96,21 @@ public class DataProcessor {
 		return averageMarketValue;
 	}
 	
-	
+	public static <K, V extends Comparable<V>> Map<K, V> sortByValues(final Map<K, V> map) {
+		Comparator<K> valueComparator = new Comparator<K>() {
+			public int compare(K k1, K k2) {
+				int compare = map.get(k1).compareTo(map.get(k2));
+				if (compare == 0) 
+					return 1;
+				else 
+					return compare;
+			}
+	    };
+	 
+	    Map<K, V> sortedByValues = new TreeMap<K, V>(valueComparator);
+	    sortedByValues.putAll(map);
+	    return sortedByValues;
+	  }
 }
 
 
