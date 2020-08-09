@@ -1,17 +1,30 @@
 package edu.upenn.cit594.data;
 //import java.util.regex.Pattern;
-public class Property {
+public class Property extends SingleData{
+	
 	private Double marketValue;
 	private Double totalLivableArea;
-	private String zipcode;
 	
-	public Property (String marketValue, String totalLivableArea, String zipcode) {
-//		String decimalPattern = "([0-9]*)([.]?)([0-9]*)";
-//		boolean matchMarketValue = Pattern.matches(decimalPattern, marketValue);
-		this.marketValue = Double.parseDouble(marketValue);	
-		this.totalLivableArea = Double.parseDouble(totalLivableArea);
-		this.zipcode = zipcode;
+	
+	public Property(String zipcodeIn, String marketValue, String totalLivableArea) {
+		super(zipcodeIn);
+		try {
+			this.marketValue = Double.parseDouble(marketValue);
+		}catch(NumberFormatException e) {
+			this.marketValue = null;
+			
+		}
+		try {
+			this.totalLivableArea = Double.parseDouble(totalLivableArea);
+		}catch(NumberFormatException e) {
+			this.totalLivableArea = null;
+			
+		}
+		
+		// TODO Auto-generated constructor stub
 	}
+
+	
 
 	public Double getMarketValue() {
 		return marketValue;
@@ -21,9 +34,7 @@ public class Property {
 		return totalLivableArea;
 	}
 
-	public String getZipcode() {
-		return zipcode;
-	}
+	
 	
 	
 	
