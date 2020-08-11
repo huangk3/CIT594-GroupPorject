@@ -1,8 +1,9 @@
 package edu.upenn.cit594.processor;
 
-import java.util.ArrayList;
-import edu.upenn.cit594.data.Property;
+import java.util.LinkedList;
+
+import edu.upenn.cit594.data.SingleData;
 
 public interface AverageCalculator {
-	public Double calculateAverage (ArrayList<Property> properties) ;
+	public int calculateAverage (LinkedList<SingleData> properties) ;
 }

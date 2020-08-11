@@ -67,19 +67,20 @@ public class UI {
 	//handle the input and verify if the input format is correct.
 	public void inputHandler() {
 		
+		//see if parking file match with json format
 		if (Pattern.matches(pattern1,parkingPath) && fileFormat.contentEquals("json")){
 			
-			//check file existence and permissions for read
+			//check parking file existence and permissions for read
 			if(InterfaceUtility.fileCheck(parkingPath)) {
 				indicator = 0;
 			}else {
 				System.out.println("The parking json file provided can not be read or does not exist.");
 				System.exit(0);
 			}
-			
+	    //see if parking file match with csv format	
 		}else if(Pattern.matches(pattern2,parkingPath) && fileFormat.contentEquals("csv")) {
 			
-			//check file existence and permissions for read
+			//check parking file existence and permissions for read
 			if(InterfaceUtility.fileCheck(parkingPath)) {
 				indicator = 1;
 			}else {
@@ -94,13 +95,15 @@ public class UI {
 			System.exit(0);
 		}
 		
+		//check property file existence and permissions for read
 		if(Pattern.matches(pattern2, propertyPath) && InterfaceUtility.fileCheck(propertyPath)) {}
 			 else {
 				indicator = -1;
 				System.out.println("The property file provided can not be read or does not exist.");
 				System.exit(0);
 			}
-			
+		
+		//check population file existence and permissions for read	
 		if(Pattern.matches(pattern3, populationPath) && InterfaceUtility.fileCheck(populationPath)) {}
 		 else {
 			indicator = -1;

@@ -15,7 +15,7 @@ import edu.upenn.cit594.data.Data;
 import edu.upenn.cit594.data.Parking;
 
 
-//this class is for reading JSON file and storing as tweets data format.
+//this class is for reading JSON file and storing as Data format.
 public class ParkingJReader implements Reader{
 	
 	
