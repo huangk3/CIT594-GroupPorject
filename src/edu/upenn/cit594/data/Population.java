@@ -17,5 +17,9 @@ public class Population {
 		return populationByZipcode.get(zipcode);
 	}
 	
+	public HashMap<String, Integer> getPopulation() {
+		return populationByZipcode;
+	}
+	
 	
 }

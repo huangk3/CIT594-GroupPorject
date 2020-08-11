@@ -7,16 +7,45 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.json.simple.parser.ParseException;
+
 import edu.upenn.cit594.data.Parking;
 import edu.upenn.cit594.data.Property;
 import edu.upenn.cit594.data.SingleData;
+import edu.upenn.cit594.datamanagement.PopulationReader;
+import edu.upenn.cit594.datamanagement.PropertyReader;
+import edu.upenn.cit594.datamanagement.Reader;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
-public class DataProcessor {
+public abstract class DataProcessor {
+	protected Reader reader;
 	private HashMap<String, Integer> populationByZipcode;
-	public DataProcessor (HashMap<String, Integer> populationByZipcode) {
-		this.populationByZipcode = populationByZipcode;
+	private TreeMap<String, LinkedList<SingleData>> fullProperty;
+	
+	
+	public DataProcessor(String propertyPath, String populationPath) throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
+		
+		PopulationReader populationRd = new PopulationReader();
+		
+		populationByZipcode = populationRd.read(populationPath).getPopulation();
+		
+		PropertyReader propertyRd = new PropertyReader();
+		
+		fullProperty = propertyRd.read(propertyPath).getData();
+		
+		reader = createReader();
+		
 	}
+	
+	
+	protected abstract Reader createReader();
+	
+	
+	/*public DataProcessor (HashMap<String, Integer> populationByZipcode) {
+		this.populationByZipcode = populationByZipcode;
+	}*/
 	
 	//performs tasks 3 & 4;
 	public int average (LinkedList<SingleData> properties, AverageCalculator averageCalculator) {
