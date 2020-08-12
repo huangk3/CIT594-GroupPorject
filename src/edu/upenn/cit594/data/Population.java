@@ -3,7 +3,7 @@ package edu.upenn.cit594.data;
 import java.util.HashMap;
 
 public class Population {
-	private HashMap<String, Integer> populationByZipcode;
+    private HashMap<String, Integer> populationByZipcode;
 	
 	public Population () {
 		populationByZipcode = new HashMap<String, Integer> ();
@@ -15,6 +15,10 @@ public class Population {
 	
 	public int getPopulation(String zipcode) {
 		return populationByZipcode.get(zipcode);
+	}
+	
+	public HashMap<String, Integer> getPopulation() {
+		return populationByZipcode;
 	}
 	
 	

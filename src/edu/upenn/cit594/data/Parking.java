@@ -1,5 +1,4 @@
 package edu.upenn.cit594.data;
-
 import java.time.ZonedDateTime;
 
 public class Parking extends SingleData{

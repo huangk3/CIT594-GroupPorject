@@ -1,28 +1,28 @@
 package edu.upenn.cit594.data;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.TreeMap;
 
 //this class is for storing the data
 public class Data {
 	
-	private ArrayList<Object> fullData = new ArrayList<Object>();;
-	
-	//this function is for selecting data based on certain index
-	public ArrayList<Object> getData(ArrayList<Integer> selected) {
-		return  DataUtility.Select(fullData, selected);
+	private TreeMap<String, LinkedList<SingleData>> fullData;
+	public Data() {
+		
+		fullData = new TreeMap<String, LinkedList<SingleData>>();
+		
 	}
-
+	
 	//this function is for getting all the data
-	public ArrayList<Object> getData() {
+	public TreeMap<String, LinkedList<SingleData>>  getData() {
 		return fullData;
 	}
     
 	//set data
-	public void setData(ArrayList<Object> dataIn) {
+	public void setData(TreeMap<String, LinkedList<SingleData>> dataIn) {
 		this.fullData = dataIn;
 	}
 	
-	
-	
+		
 
 }

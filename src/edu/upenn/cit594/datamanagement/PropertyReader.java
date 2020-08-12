@@ -4,12 +4,12 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.simple.parser.ParseException;
 
 import edu.upenn.cit594.data.Data;
-import edu.upenn.cit594.data.Parking;
+import edu.upenn.cit594.data.Property;
 
 public class PropertyReader implements Reader{
 
@@ -32,24 +32,22 @@ public class PropertyReader implements Reader{
 		return propertyData;
 	}
 	
-   private Data CSVToData(BufferedReader parkingIn) throws IOException, ParseException {
+   private Data CSVToData(BufferedReader propertyIn) throws IOException, ParseException {
 		
 		Data propertyData = new Data();
 		
-		ArrayList<Object> Properties =  new ArrayList<Object>();
+		String line = propertyIn.readLine();
 		
-		String line;
+		HashMap<String, Integer> Header = ReaderUtility.findHeader(line);
 		
-		while((line = parkingIn.readLine())!= null) {
+		while((line = propertyIn.readLine())!= null) {
 			
 			//transform the string into parking
-			Parking singleProperty = ReaderUtility.readParkingCLine(line);
+			Property singleProperty = ReaderUtility.readPropertyLine(line, Header);
 			
-			Properties.add(singleProperty);
+			propertyData = ReaderUtility.addData(propertyData, singleProperty);
 					
 		}
-		
-		propertyData.setData(Properties);
 		
 		return propertyData;
 		

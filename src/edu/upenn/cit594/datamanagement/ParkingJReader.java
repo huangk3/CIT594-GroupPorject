@@ -3,7 +3,6 @@ package edu.upenn.cit594.datamanagement;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 //import java.util.Date;
 import java.util.Iterator;
 
@@ -16,7 +15,7 @@ import edu.upenn.cit594.data.Data;
 import edu.upenn.cit594.data.Parking;
 
 
-//this class is for reading JSON file and storing as tweets data format.
+//this class is for reading JSON file and storing as Data format.
 public class ParkingJReader implements Reader{
 	
 	
@@ -34,16 +33,12 @@ public class ParkingJReader implements Reader{
 	}
 	
 	
-	//convert JSON format into tweet format
+	//convert JSON format into data format
 	private Data JSONToData(JSONArray parkingArray) throws java.text.ParseException {
 		
 		Data parkingData = new Data();
 		
 		Iterator<?> iter = parkingArray.iterator();
-		
-		Parking tempParking;
-		
-		ArrayList<Object> Parkings = new ArrayList<Object>();
 		
 		while(iter.hasNext()) {
 			
@@ -51,14 +46,14 @@ public class ParkingJReader implements Reader{
 			//get the next JSON object
 			JSONObject parking = (JSONObject) iter.next();
 			
-			tempParking =  ReaderUtility.readParkingJLine(parking);
+			Parking tempParking =  ReaderUtility.readParkingJLine(parking);
 			
-			Parkings.add(tempParking);
-					
+			if (tempParking != null) {
+				parkingData = ReaderUtility.addData(parkingData, tempParking);	
+			}
+						
 		}
 		
-		//set the data
-		parkingData.setData(Parkings);
 		
 		return parkingData;
 		

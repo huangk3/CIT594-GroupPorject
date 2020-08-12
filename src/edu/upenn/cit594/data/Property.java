@@ -1,12 +1,12 @@
 package edu.upenn.cit594.data;
-//import java.util.regex.Pattern;
+
 public class Property extends SingleData{
 	
 	private Double marketValue;
 	private Double totalLivableArea;
 	
 	
-	public Property(String zipcodeIn, String marketValue, String totalLivableArea) {
+	public Property(String zipcodeIn, String totalLivableArea, String marketValue) {
 		super(zipcodeIn);
 		try {
 			this.marketValue = Double.parseDouble(marketValue);

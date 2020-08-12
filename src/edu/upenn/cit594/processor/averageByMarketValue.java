@@ -17,13 +17,15 @@ public class averageByMarketValue implements AverageCalculator{
 			if (s instanceof Property) {
 				Property p = (Property) s;
 				Double marketValue = p.getMarketValue();
-				if ( marketValue > 0 ) {
+				if ( marketValue != null && marketValue > 0 ) {
+//					System.out.println("M value is " + marketValue);
 					totalMarketValue += marketValue;
 					count++;
 				} 
 			}
 		}		
 		if (count == 0) return 0;
+//		System.out.println(totalMarketValue + " ## " + count);
 		return (int) Math.floor(totalMarketValue / count);
 	}	
 
