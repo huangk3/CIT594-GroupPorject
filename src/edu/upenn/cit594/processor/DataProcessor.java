@@ -9,7 +9,7 @@ import java.util.TreeMap;
 
 import org.json.simple.parser.ParseException;
 
-import edu.upenn.cit594.data.Parking;
+//import edu.upenn.cit594.data.Parking;
 import edu.upenn.cit594.data.Property;
 import edu.upenn.cit594.data.SingleData;
 import edu.upenn.cit594.datamanagement.PopulationReader;
@@ -21,12 +21,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 public abstract class DataProcessor {
+	
+	//variables being used in the internal process
 	protected Reader reader;
 	private HashMap<String, Integer> populationByZipcode;
 	private TreeMap<String, LinkedList<SingleData>> fullProperty;
 	private TreeMap<String, LinkedList<SingleData>> fullParking;
 	
-	//store answer for reducing calculation
+	
+	//storing output answer for reducing calculation
 	private int totalPopulation = 0;
 	private TreeMap<String,Double> FinesPerCapita;
 	
@@ -58,12 +61,10 @@ public abstract class DataProcessor {
 		
 	}
 	
-	
+	//process based on the input number
 	public void process(int inputNumber) {
 		String zipCode;
 		LinkedList<SingleData> properties;
-		
-		
 		
 		switch (inputNumber) {
 		  case 1:
@@ -112,11 +113,6 @@ public abstract class DataProcessor {
 		}
 		
 	}
-	
-	
-	
-	
-	
 	
 	
 	//performs tasks 3 & 4;

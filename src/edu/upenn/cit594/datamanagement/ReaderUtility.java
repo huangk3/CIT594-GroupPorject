@@ -100,9 +100,15 @@ public class ReaderUtility {
         
         String zipcode = rawZip.substring(0,Math.min(rawZip.length(), 5));
         
-        Property singleProperty = new Property(zipcode, total, value);
-        //System.out.println(zipcode);
-		return singleProperty;
+        if(zipcode.equals("")) {
+        	return null;
+        
+        }else {Property singleProperty = new Property(zipcode, total, value);
+           
+           return singleProperty;
+        }
+           
+        //System.out.println(zipcode);	
 	}
 	
 	

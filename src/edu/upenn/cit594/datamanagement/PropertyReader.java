@@ -44,8 +44,11 @@ public class PropertyReader implements Reader{
 			
 			//transform the string into parking
 			Property singleProperty = ReaderUtility.readPropertyLine(line, Header);
-			
-			propertyData = ReaderUtility.addData(propertyData, singleProperty);
+			if(singleProperty != null) {
+				
+				propertyData = ReaderUtility.addData(propertyData, singleProperty);
+			}
+		
 					
 		}
 		
