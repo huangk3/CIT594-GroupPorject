@@ -26,9 +26,6 @@ public class Main {
 		usercase.calculate();
 		
 		
-		//present the data to the system output
-		usercase.present();
-		
 	}
 	
 

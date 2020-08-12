@@ -55,7 +55,7 @@ public class ReaderUtility {
 			Parking singleParking = new Parking(zipcode, timestamp, fine, description, 
 					vehicleID, state, violationID);
 			
-			System.out.println(zipcode);
+			//System.out.println(zipcode);
 			return singleParking;
 			
 		}
@@ -101,7 +101,7 @@ public class ReaderUtility {
         String zipcode = rawZip.substring(0,Math.min(rawZip.length(), 5));
         
         Property singleProperty = new Property(zipcode, total, value);
-        System.out.println(zipcode);
+        //System.out.println(zipcode);
 		return singleProperty;
 	}
 	
@@ -111,7 +111,7 @@ public class ReaderUtility {
 		
 		String tempCode = singleData.getZipcode();
 		
-		System.out.println(tempCode);
+		//System.out.println(tempCode);
 		
 		TreeMap<String, LinkedList<SingleData>> tempData = existingData.getData();
 		

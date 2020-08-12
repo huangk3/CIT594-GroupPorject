@@ -26,6 +26,10 @@ public abstract class DataProcessor {
 	private TreeMap<String, LinkedList<SingleData>> fullProperty;
 	private TreeMap<String, LinkedList<SingleData>> fullParking;
 	
+	//store answer for reducing calculation
+	private int totalPopulation = 0;
+	private TreeMap<String,Double> FinesPerCapita;
+	
 	
 	//setting up the processor by reading population and property
 	public DataProcessor(String propertyPath, String populationPath) throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
@@ -61,10 +65,23 @@ public abstract class DataProcessor {
 		
 		switch (inputNumber) {
 		  case 1:
-		    ProcessorUtility.TotalPopulation(populationByZipcode);
+			
+			//check if the answer has been calculated
+			if (totalPopulation != 0) {
+			   System.out.println("The total population is " + totalPopulation);
+			}else{
+	
+		       totalPopulation = ProcessorUtility.TotalPopulation(populationByZipcode);} 
 		    break;
+		  
 		  case 2:
-			ProcessorUtility.TotalFinesPerCapita(fullParking, populationByZipcode);
+			
+			//check if the answer has been calculated
+			if (FinesPerCapita != null) {
+				ProcessorUtility.TotalFinesPerCapita(FinesPerCapita);
+			}
+			else {
+				FinesPerCapita =ProcessorUtility.TotalFinesPerCapita(fullParking, populationByZipcode);}
 		    break;
 		  
 		  case 3:
