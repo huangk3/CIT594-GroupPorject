@@ -64,7 +64,7 @@ public abstract class DataProcessor {
 		    ProcessorUtility.TotalPopulation(populationByZipcode);
 		    break;
 		  case 2:
-			ProcessorUtility.TotalFines(fullParking);
+			ProcessorUtility.TotalFinesPerCapita(fullParking, populationByZipcode);
 		    break;
 		  
 		  case 3:
@@ -90,9 +90,6 @@ public abstract class DataProcessor {
 		    break;
 		  case 6:
 			rankParkingViolationPer100People();
-		    break;
-		  case 7:
-			averageMarketValueByZipcode();
 		    break;
 		}
 		
