@@ -19,8 +19,10 @@ public class Main {
 		
 		//user case call the right class, in this process, the log file has been generated
 		if(usercase.getIndicator() != 2) {
-			usercase.callRead();
+			usercase.createProcessor();
 		}
+		
+		usercase.callReader();
 		
 		//user case will calculate
 		usercase.calculate();

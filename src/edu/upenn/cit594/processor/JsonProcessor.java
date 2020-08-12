@@ -13,9 +13,9 @@ public class JsonProcessor extends DataProcessor {
 
 	
 	
-	public JsonProcessor(String propertyPath, String populationPath) throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
+	public JsonProcessor(String populationPath) throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
 		
-		super(propertyPath, populationPath);
+		super(populationPath);
 	}
 
 	@Override

@@ -32,12 +32,10 @@ public abstract class DataProcessor {
 	
 	
 	//setting up the processor by reading population and property
-	public DataProcessor(String propertyPath, String populationPath) throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
+	public DataProcessor(String populationPath) throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
 		
 		PopulationReader populationRd = new PopulationReader();
 		populationByZipcode = populationRd.read(populationPath).getPopulation();
-		PropertyReader propertyRd = new PropertyReader();		
-		fullProperty = propertyRd.read(propertyPath).getData();	
 		//create reader
 		reader = createReader();
 		
@@ -47,14 +45,18 @@ public abstract class DataProcessor {
 	protected abstract Reader createReader();
 	
 	
-	
+	//read parking 
 	public void readParking(String ParkingPath) throws java.text.ParseException, FileNotFoundException, IOException, ParseException {
-		
-	
 		fullParking = reader.read(ParkingPath).getData();
 		
 	}
 	
+	//read property
+	public void readProperty(String propertyPath) throws java.text.ParseException, FileNotFoundException, IOException, ParseException {
+		PropertyReader propertyRd = new PropertyReader();		
+		fullProperty = propertyRd.read(propertyPath).getData();	
+		
+	}
 	
 	
 	public void process(int inputNumber) {
@@ -70,7 +72,6 @@ public abstract class DataProcessor {
 			if (totalPopulation != 0) {
 			   System.out.println("The total population is " + totalPopulation);
 			}else{
-	
 		       totalPopulation = ProcessorUtility.TotalPopulation(populationByZipcode);} 
 		    break;
 		  

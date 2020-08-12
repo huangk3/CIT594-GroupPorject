@@ -13,9 +13,9 @@ public class CsvProcessor extends DataProcessor {
 
 	
 	
-	public CsvProcessor(String propertyPath, String populationPath) throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
+	public CsvProcessor(String populationPath) throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
 		
-		super(propertyPath, populationPath);
+		super(populationPath);
 	}
 
 	@Override

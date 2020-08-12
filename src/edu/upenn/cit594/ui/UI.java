@@ -3,10 +3,11 @@ package edu.upenn.cit594.ui;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 //import java.util.HashMap;
-
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import edu.upenn.cit594.processor.CsvProcessor;
@@ -35,13 +36,21 @@ public class UI {
 	
 	
 	//output variable for processor use
+	
+	
+	//this indicator is for deciding which park reader
+	private int indicator = -1;
 	//-1: illegal input format
 	//0: JSON parking format
 	//1: csv parking format
 	//2: reading finished
-	private int indicator = -1;
+	
+	//this indicator is for reading if parking and property have been read alreday
+	private int[] readerIndicator;
+	
 	//create the processor calculate engine
 	private DataProcessor processor;
+	private Set<Integer> InputSet;
 	
 	
 	
@@ -53,13 +62,23 @@ public class UI {
 			System.exit(0);
 		}
 		
-		//set up the variables
+		//set up variables
 		fileFormat= args[0];
 		parkingPath = args[1];
 		propertyPath = args[2];
 		populationPath = args[3];
 		
+		InputSet = new HashSet<Integer>();  
+        // Add input number case into the set  
+		InputSet.add(3); 
+		InputSet.add(4); 
+		InputSet.add(5); 
+		InputSet.add(6); 
 		
+		//set up reading indicator
+		readerIndicator = new int[2];
+		readerIndicator[0] = 0;
+		readerIndicator[1] = 0;
 	}
 	
 	
@@ -116,7 +135,7 @@ public class UI {
 	}
 	
 	//call the processor which will call reading
-	public void callRead() throws ParseException, FileNotFoundException, IOException, org.json.simple.parser.ParseException {
+	public void createProcessor() throws ParseException, FileNotFoundException, IOException, org.json.simple.parser.ParseException {
 		
 		//test
 		/*PropertyReader propertyRd = new PropertyReader();
@@ -128,8 +147,7 @@ public class UI {
 		//check if the indicator is valid
 		if (indicator == 0) {
 			
-			processor = new JsonProcessor(propertyPath,populationPath);
-			processor.readParking(parkingPath);
+			processor = new JsonProcessor(populationPath);
 			
 			indicator = 2;
 			
@@ -141,8 +159,7 @@ public class UI {
 			
 		}else if(indicator == 1){
 			
-			processor = new CsvProcessor(propertyPath,populationPath);
-			processor.readParking(parkingPath);
+			processor = new CsvProcessor(populationPath);
 			
 			indicator = 2;
 			//ParkingCReader being used inside
@@ -159,6 +176,29 @@ public class UI {
 		
 		
 	};
+	
+	public void callReader() throws FileNotFoundException, ParseException, IOException, org.json.simple.parser.ParseException {
+		
+		
+		if(inputNumber == 2 && readerIndicator[0] == 0 ) {
+		    processor.readParking(parkingPath);
+		    readerIndicator[0] = 1;
+		}
+		
+		//check if we need to read Property
+		if(InputSet.contains(inputNumber) && readerIndicator[1] == 0) {
+		    processor.readProperty(propertyPath);
+		    readerIndicator[1] = 1;
+		    
+		    //check if we need to read Parking
+		    if(inputNumber == 6 && readerIndicator[0] == 0) {
+		    	processor.readParking(parkingPath);
+			    readerIndicator[0] = 1;
+		    }
+		}
+		
+				
+	}
 	
 	//get indicator
 	public int getIndicator() {
