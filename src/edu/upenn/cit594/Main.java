@@ -19,8 +19,11 @@ public class Main {
 		
 		//user case call the right class, in this process, the log file has been generated
 		if(usercase.getIndicator() != 2) {
-			usercase.call();
+			usercase.callRead();
 		}
+		
+		//user case will calculate
+		usercase.calculate();
 		
 		
 		//present the data to the system output

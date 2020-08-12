@@ -9,10 +9,9 @@ import java.util.Scanner;
 
 import java.util.regex.Pattern;
 
-import edu.upenn.cit594.datamanagement.ParkingCReader;
-import edu.upenn.cit594.datamanagement.ParkingJReader;
-import edu.upenn.cit594.datamanagement.PopulationReader;
-import edu.upenn.cit594.datamanagement.PropertyReader;
+import edu.upenn.cit594.processor.CsvProcessor;
+import edu.upenn.cit594.processor.DataProcessor;
+import edu.upenn.cit594.processor.JsonProcessor;
 
 
 
@@ -41,6 +40,8 @@ public class UI {
 	//1: csv parking format
 	//2: reading finished
 	private int indicator = -1;
+	//create the processor calculate engine
+	private DataProcessor processor;
 	
 	
 	
@@ -115,21 +116,20 @@ public class UI {
 	}
 	
 	//call the processor which will call reading
-	public void call() throws ParseException, FileNotFoundException, IOException, org.json.simple.parser.ParseException {
+	public void callRead() throws ParseException, FileNotFoundException, IOException, org.json.simple.parser.ParseException {
 		
-	
-		PropertyReader propertyRd = new PropertyReader();
+		//test
+		/*PropertyReader propertyRd = new PropertyReader();
 		propertyRd.read(propertyPath);
 		
 		PopulationReader populationRd = new PopulationReader();
-		populationRd.read(populationPath);
+		populationRd.read(populationPath);*/
 		
 		//check if the indicator is valid
 		if (indicator == 0) {
 			
-			ParkingJReader parkingRd = new ParkingJReader();
-			
-			parkingRd.read(parkingPath);
+			processor = new JsonProcessor(propertyPath,populationPath);
+			processor.readParking(parkingPath);
 			
 			indicator = 2;
 			
@@ -141,9 +141,8 @@ public class UI {
 			
 		}else if(indicator == 1){
 			
-			ParkingCReader parkingRd = new ParkingCReader();
-			
-			parkingRd.read(parkingPath);
+			processor = new CsvProcessor(propertyPath,populationPath);
+			processor.readParking(parkingPath);
 			
 			indicator = 2;
 			//ParkingCReader being used inside
@@ -201,6 +200,16 @@ public class UI {
 		  
 		
 		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+	public void calculate() {
+		
+		processor.process(inputNumber);
+		
 		
 	}
 
