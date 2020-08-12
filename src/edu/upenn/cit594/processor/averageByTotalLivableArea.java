@@ -17,7 +17,7 @@ public class averageByTotalLivableArea implements AverageCalculator {
 			if (s instanceof Property) {
 				Property p = (Property) s;
 				Double livableArea = p.getTotalLivableArea();
-				if ( livableArea > 0 ) {
+				if ( livableArea != null && livableArea > 0) {
 					totalLivableArea += livableArea;
 					count++;
 				} 

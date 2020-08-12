@@ -133,7 +133,7 @@ public abstract class DataProcessor {
 			while (listIterator.hasNext()) {
 				Property s = (Property) listIterator.next();
 				Double marketValue = s.getMarketValue();
-				if ( marketValue > 0 ) {
+				if ( marketValue != null && marketValue > 0) {
 					totalResidentialMarketValue += marketValue;
 				} 
 			}
