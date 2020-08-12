@@ -28,7 +28,7 @@ public class ProcessorUtility {
     			
     		}
 		
-		System.out.println("The total population is" + totalPop);
+		System.out.println("The total population is " + totalPop);
     	
     	}
 		
@@ -38,18 +38,34 @@ public class ProcessorUtility {
 		
 		
 		LinkedList<SingleData> parkings;
+		String code;
+		Integer tempPop;
+		Double totalFine;
 		for(Map.Entry<String,LinkedList<SingleData>> entry : fullParking.entrySet()) {
 			
-			Double totalFine = 0.0;
-			parkings = entry.getValue();
-			for (Iterator<SingleData> i = parkings.iterator(); i.hasNext();) {
+			//check if there zip code in the population map
+			code = entry.getKey();
+			tempPop = populationByZipcode.get(code);
+			if(tempPop != null && tempPop > 0) {
 				
+				totalFine = 0.0;
+				parkings = entry.getValue();
+				
+				for (Iterator<SingleData> i = parkings.iterator(); i.hasNext();) {
 				 Parking onePark = (Parking)i.next();
-				 totalFine = totalFine + onePark.getFine();
+				 
+				 //make sure the the parking is in PA
+				 if(onePark.getState().equals("PA")){
+				 totalFine = totalFine + onePark.getFine();}
 		      }
-			String code = entry.getKey();
-			double finePerCapita = totalFine/populationByZipcode.get(code);
-			System.out.println(code + " " + finePerCapita);
+			    //make sure the fine is larger than 0
+				if(totalFine > 0){
+				double finePerCapita = totalFine/tempPop;
+				
+				System.out.print(code + " ");
+				System.out.format("%.4f%n", finePerCapita);}
+			}
+			
 		}
 		
 	}

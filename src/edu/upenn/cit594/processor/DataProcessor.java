@@ -101,10 +101,6 @@ public abstract class DataProcessor {
 	
 	
 	
-	
-	
-	
-	
 	//performs tasks 3 & 4;
 	public int average (LinkedList<SingleData> properties, AverageCalculator averageCalculator) {
 			return averageCalculator.calculateAverage(properties);
