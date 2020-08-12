@@ -13,4 +13,11 @@ public static boolean fileCheck(String Path) {
 	
 }
 
+public static String askCode() {
+	
+	
+	
+	return null;
+}
+
 }
