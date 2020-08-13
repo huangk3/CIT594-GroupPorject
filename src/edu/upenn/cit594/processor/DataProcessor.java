@@ -32,7 +32,10 @@ public abstract class DataProcessor {
 	//store answer for reducing calculation
 	private int totalPopulation = 0;
 	private TreeMap<String,Double> FinesPerCapita;
-	
+	private HashMap<String, Integer> meanPropertyValue = new HashMap<String, Integer>();
+	private HashMap<String, Integer> meanLivableArea = new HashMap<String, Integer>();
+	private HashMap<String, Integer> residentialValuePerCapita = new HashMap<String, Integer>();
+	private Map<String , Double> rankedParkingViolations = new TreeMap<String , Double>();
 	
 	//setting up the processor by reading population and property
 	public DataProcessor(String propertyPath, String populationPath) throws FileNotFoundException, IOException, ParseException, java.text.ParseException {
@@ -89,26 +92,45 @@ public abstract class DataProcessor {
 		  
 		  case 3:
 			//call UI to present an userInput
+			int averageMarketValue = 0;
 			zipCode = InterfaceUtility.askCode();
-			averageByMarketValue averageByMarketValue = new averageByMarketValue();
-			properties = fullProperty.get(zipCode);
-			int averageMarketValue = average(properties, averageByMarketValue);
+			if (meanPropertyValue.containsKey(zipCode))  {
+				averageMarketValue = meanPropertyValue.get(zipCode);
+			} else {
+				averageByMarketValue averageByMarketValue = new averageByMarketValue();
+				properties = fullProperty.get(zipCode);
+				averageMarketValue = average(properties, averageByMarketValue);
+				meanPropertyValue.put(zipCode, averageMarketValue);
+			}
+
             System.out.println("The avaerage property market value for " + zipCode + " is $" + averageMarketValue);
 		    break;
 		  
 		  case 4:
 			//call UI to present an userInput
+			int averageLivableArea = 0;
 			zipCode = InterfaceUtility.askCode();
-			averageByTotalLivableArea averageByTotalLivableArea = new averageByTotalLivableArea();
-			properties = fullProperty.get(zipCode);
-			int averageLivableArea = average(properties, averageByTotalLivableArea);
+			if (meanLivableArea.containsKey(zipCode)) {
+				averageLivableArea = meanLivableArea.get(zipCode);
+			} else {
+				averageByTotalLivableArea averageByTotalLivableArea = new averageByTotalLivableArea();
+				properties = fullProperty.get(zipCode);
+				averageLivableArea = average(properties, averageByTotalLivableArea);
+				meanLivableArea.put(zipCode, averageLivableArea);
+			}
             System.out.println("The avaerage livable area for " + zipCode + " is " + averageLivableArea +" sqft");
 		    break;
 		  
 		  case 5:
+			int totalResidentialMarketValuePerCapita;
 			zipCode = InterfaceUtility.askCode();
-			properties = fullProperty.get(zipCode);
-			int totalResidentialMarketValuePerCapita = totalResidentialMarketValuePerCapita(properties,zipCode);
+			if (residentialValuePerCapita.containsKey(zipCode)){
+				totalResidentialMarketValuePerCapita =  residentialValuePerCapita.get(zipCode);
+			} else {
+				properties = fullProperty.get(zipCode);
+				totalResidentialMarketValuePerCapita = totalResidentialMarketValuePerCapita(properties,zipCode);
+				residentialValuePerCapita.put(zipCode, totalResidentialMarketValuePerCapita);
+			}
             System.out.println("The total residential market value per capita in " + zipCode + " is $" + totalResidentialMarketValuePerCapita);
 		    break;
 		  case 6:
@@ -166,60 +188,69 @@ public abstract class DataProcessor {
 	}
 	
 	public Map<String , Double> rankParkingViolationPer10kPeople () {
-		Map<String , Double> parkingViolationPer10kPeople = new TreeMap<String , Double>();
-		HashMap<String , Integer> parkingViolationCount = new HashMap<String , Integer>();
-		//get the total number of parking violations for each zipcode;
-		for (String zipcode1 : fullParking.keySet()) {
-			//the zipcode must be in the population.txt
-			if (populationByZipcode.containsKey(zipcode1)) {
-				int population = populationByZipcode.get(zipcode1);
-				//ignore zipcode with population of 0;
-				if ( population > 0 ) {
-					int parkingViolations = fullParking.get(zipcode1).size();
-//					System.out.println("vialation count for " + zipcode1 + " is " + parkingViolations);
-					BigDecimal numberOfParkViolations = new BigDecimal(String.valueOf((parkingViolations * 10000.0) / population)).setScale(2, BigDecimal.ROUND_FLOOR);
-//					System.out.println("vialation count per 10k for " + zipcode1 + " is " + numberOfParkViolations.doubleValue());
-					parkingViolationPer10kPeople.put(zipcode1, numberOfParkViolations.doubleValue());
+		//check if rankedParkingViolations had already been calculated.
+		if (rankedParkingViolations.isEmpty()) {
+			Map<String , Double> parkingViolationPer10kPeople = new TreeMap<String , Double>();
+			//get the total number of parking violations for each zipcode;
+			for (String zipcode1 : fullParking.keySet()) {
+				//the zipcode must be in the population.txt
+				if (populationByZipcode.containsKey(zipcode1)) {
+					int population = populationByZipcode.get(zipcode1);
+					//ignore zipcode with population of 0;
+					if ( population > 0 ) {
+						int parkingViolations = fullParking.get(zipcode1).size();
+//						System.out.println("vialation count for " + zipcode1 + " is " + parkingViolations);
+						BigDecimal numberOfParkViolations = new BigDecimal(String.valueOf((parkingViolations * 10000.0) / population)).setScale(2, BigDecimal.ROUND_FLOOR);
+//						System.out.println("vialation count per 10k for " + zipcode1 + " is " + numberOfParkViolations.doubleValue());
+						parkingViolationPer10kPeople.put(zipcode1, numberOfParkViolations.doubleValue());
+					}
 				}
 			}
+			//sort the parkingViolationPer100People by value (number of parking violation per 10k people);
+			rankedParkingViolations = sortByValues(parkingViolationPer10kPeople);
 		}
-		//sort the parkingViolationPer100People by value (number of parking violation per 10k people);
-		Map<String , Double> sortedMap = sortByValues(parkingViolationPer10kPeople);
-		return sortedMap;
+		return rankedParkingViolations;
 	}
 	
 	//component function for step 6. Return Hashmap which stores the average market value for each zipcode;
 	public HashMap<String , Integer> averageMarketValueByZipcode () {
-		HashMap<String , Integer> averageMarketValue = new HashMap<String , Integer>();
-		HashMap<String , Double> totalMarketValue = new HashMap<String , Double>();
-		HashMap<String , Integer> homeCount = new HashMap<String , Integer>();
+//		HashMap<String , Integer> averageMarketValue = new HashMap<String , Integer>();
+//		HashMap<String , Double> totalMarketValue = new HashMap<String , Double>();
+//		HashMap<String , Integer> homeCount = new HashMap<String , Integer>();
 		
 		for (String zipcode : fullProperty.keySet()) {
-			LinkedList<SingleData> propertiesSubsettedByZipcode = fullProperty.get(zipcode);
-			if (propertiesSubsettedByZipcode.peek() instanceof Property )	{
-				ListIterator<SingleData> listIterator = propertiesSubsettedByZipcode.listIterator();
-				while (listIterator.hasNext()) { 
-					Property p = (Property) listIterator.next();
-					Double value = p.getMarketValue();
-					if ( value != null && value > 0) {
-						if (totalMarketValue.containsKey(zipcode)) {
-							totalMarketValue.put(zipcode, totalMarketValue.get(zipcode)+value);
-							homeCount.put(zipcode, homeCount.get(zipcode) + 1);
-						} else {
-							totalMarketValue.put(zipcode, value);
-							homeCount.put(zipcode, 1);
-						}
-
-					}
-				}
-			}
-			
+			if (meanPropertyValue.containsKey(zipcode) == false) {
+				averageByMarketValue averageByMarketValue = new averageByMarketValue();
+				int averageMarketValue = average(fullProperty.get(zipcode), averageByMarketValue);
+				meanPropertyValue.put(zipcode, averageMarketValue);
+			} 
 		}
+//			else {
+//				LinkedList<SingleData> propertiesSubsettedByZipcode = fullProperty.get(zipcode);
+//				if (propertiesSubsettedByZipcode.peek() instanceof Property )	{
+//					ListIterator<SingleData> listIterator = propertiesSubsettedByZipcode.listIterator();
+//					while (listIterator.hasNext()) { 
+//						Property p = (Property) listIterator.next();
+//						Double value = p.getMarketValue();
+//						if ( value != null && value > 0) {
+//							if (totalMarketValue.containsKey(zipcode)) {
+//								totalMarketValue.put(zipcode, totalMarketValue.get(zipcode)+value);
+//								homeCount.put(zipcode, homeCount.get(zipcode) + 1);
+//							} else {
+//								totalMarketValue.put(zipcode, value);
+//								homeCount.put(zipcode, 1);
+//							}
+//
+//						}
+//					}
+//				}
+//			}			
+
 		
-		for (String z : totalMarketValue.keySet()) {
-			averageMarketValue.put(z, (int) Math.floor(totalMarketValue.get(z) / homeCount.get(z)));		
-		}		
-		return averageMarketValue;
+//		for (String z : totalMarketValue.keySet()) {
+//			averageMarketValue.put(z, (int) Math.floor(totalMarketValue.get(z) / homeCount.get(z)));		
+//		}		
+		return meanPropertyValue;
 	}
 	
 	// sort (descending) the treemap by value instead of key  
