@@ -106,52 +106,62 @@ public abstract class DataProcessor {
 	    
 	    //process based on the input number 3,4,5
 		public void process(int inputNumber, String zipCode) {
-			LinkedList<SingleData> properties;
-			
-			switch (inputNumber) {
-		    case 3:
-			//call UI to present an userInput
-			int averageMarketValue = 0;
-			
-			if (meanPropertyValue.containsKey(zipCode))  {
-				averageMarketValue = meanPropertyValue.get(zipCode);
-			} else {
-				averageByMarketValue averageByMarketValue = new averageByMarketValue();
-				properties = fullProperty.get(zipCode);
-				averageMarketValue = average(properties, averageByMarketValue);
-				meanPropertyValue.put(zipCode, averageMarketValue);
-			}
+			try {
+				int z = Integer.parseInt(zipCode);
+				if ( z > 99999 || z < 10000 ) {
+					System.out.println(zipCode + " is invalid. Zipcode must be a 5 digit number!");
+				} else {
+					LinkedList<SingleData> properties;
+					
+					switch (inputNumber) {
+				    case 3:
+					//call UI to present an userInput
+					int averageMarketValue = 0;
+					
+					if (meanPropertyValue.containsKey(zipCode))  {
+						averageMarketValue = meanPropertyValue.get(zipCode);
+					} else {
+						averageByMarketValue averageByMarketValue = new averageByMarketValue();
+						properties = fullProperty.get(zipCode);
+						averageMarketValue = average(properties, averageByMarketValue);
+						meanPropertyValue.put(zipCode, averageMarketValue);
+					}
 
-            System.out.println("The avaerage property market value for " + zipCode + " is $" + averageMarketValue);
-		    break;
-		  
-		    case 4:
-			//call UI to present an userInput
-			int averageLivableArea = 0;
-			if (meanLivableArea.containsKey(zipCode)) {
-				averageLivableArea = meanLivableArea.get(zipCode);
-			} else {
-				averageByTotalLivableArea averageByTotalLivableArea = new averageByTotalLivableArea();
-				properties = fullProperty.get(zipCode);
-				averageLivableArea = average(properties, averageByTotalLivableArea);
-				meanLivableArea.put(zipCode, averageLivableArea);
+		            System.out.println("The avaerage property market value for " + zipCode + " is $" + averageMarketValue);
+				    break;
+				  
+				    case 4:
+					//call UI to present an userInput
+					int averageLivableArea = 0;
+					if (meanLivableArea.containsKey(zipCode)) {
+						averageLivableArea = meanLivableArea.get(zipCode);
+					} else {
+						averageByTotalLivableArea averageByTotalLivableArea = new averageByTotalLivableArea();
+						properties = fullProperty.get(zipCode);
+						averageLivableArea = average(properties, averageByTotalLivableArea);
+						meanLivableArea.put(zipCode, averageLivableArea);
+					}
+		            System.out.println("The avaerage livable area for " + zipCode + " is " + averageLivableArea +" sqft");
+				    break;
+				  
+				  case 5:
+					int totalResidentialMarketValuePerCapita;
+					if (residentialValuePerCapita.containsKey(zipCode)){
+						totalResidentialMarketValuePerCapita =  residentialValuePerCapita.get(zipCode);
+					} else {
+						properties = fullProperty.get(zipCode);
+						totalResidentialMarketValuePerCapita = totalResidentialMarketValuePerCapita(properties,zipCode);
+						residentialValuePerCapita.put(zipCode, totalResidentialMarketValuePerCapita);
+					}
+		            System.out.println("The total residential market value per capita in " + zipCode + " is $" + totalResidentialMarketValuePerCapita);
+				    break;
+					
+				   }
+				}
+			} catch (NumberFormatException e) {
+				System.out.println(zipCode + " is not a valid 5 digit number!");
 			}
-            System.out.println("The avaerage livable area for " + zipCode + " is " + averageLivableArea +" sqft");
-		    break;
-		  
-		  case 5:
-			int totalResidentialMarketValuePerCapita;
-			if (residentialValuePerCapita.containsKey(zipCode)){
-				totalResidentialMarketValuePerCapita =  residentialValuePerCapita.get(zipCode);
-			} else {
-				properties = fullProperty.get(zipCode);
-				totalResidentialMarketValuePerCapita = totalResidentialMarketValuePerCapita(properties,zipCode);
-				residentialValuePerCapita.put(zipCode, totalResidentialMarketValuePerCapita);
-			}
-            System.out.println("The total residential market value per capita in " + zipCode + " is $" + totalResidentialMarketValuePerCapita);
-		    break;
 			
-		   }
 		}
 		
 		//performs tasks 3 & 4;
