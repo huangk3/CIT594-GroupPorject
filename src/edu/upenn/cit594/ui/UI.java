@@ -65,9 +65,7 @@ public class UI {
 			System.exit(0);
 		}
 		
-		//set up logger
-		l = Logger.getInstance();
-		l.log(String.join(" ", args));
+		
 		
 		//set up variables
 		fileFormat= args[0];
@@ -76,6 +74,12 @@ public class UI {
 		populationPath = args[3];
 		logFileName =  args[4];
 		
+		//set up logger
+		l = Logger.getInstance();
+		l.log(String.join(" ", args));
+		
+		
+		//input set for identifying input numbers
 		InputSet = new HashSet<Integer>();  
         // Add input number case into the set  
 		InputSet.add(3); 

@@ -1,0 +1,5 @@
+1597369575882 json /Users/zeneng/Downloads/parking.json /Users/zeneng/Downloads/properties.csv /Users/zeneng/Downloads/population.txt log.txt
+1597369578946 1
+1597369578946 /Users/zeneng/Downloads/population.txt
+1597369586606 2
+1597369586606 /Users/zeneng/Downloads/parking.json

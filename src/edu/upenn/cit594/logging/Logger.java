@@ -3,6 +3,7 @@ package edu.upenn.cit594.logging;
 import java.io.File;
 import java.io.PrintWriter;
 
+//import edu.upenn.cit594.Main;
 import edu.upenn.cit594.ui.UI;
 
 public class Logger {
@@ -10,15 +11,18 @@ public class Logger {
 	private PrintWriter out;
 	//private String filename = "log.txt";
 	
-	public Logger(String filename) {
+	private Logger(String filename) {
 		
-		try { 
-			
-			out = new PrintWriter(new File(filename));
-			System.out.println(out == null);}
+		
+		try {
+			out = new PrintWriter(new File (filename));
+	
+				}
+		
 		catch(Exception e) {}
 		
 	}
+	
 	
 	
 	private static Logger instance = new Logger(UI.logFileName);
@@ -27,12 +31,11 @@ public class Logger {
 		
 		return instance;}
 	
-	
 	public void log(String msg) {
 		//logging
 		String systemTime = Long.toString(System.currentTimeMillis());
-		System.out.println(systemTime + " " + msg);
-		//System.out.println(out == null);
+
+		
 		out.println(systemTime + " " + msg);
 		out.flush();
 	}
