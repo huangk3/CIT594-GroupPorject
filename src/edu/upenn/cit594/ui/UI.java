@@ -189,7 +189,7 @@ public class UI {
 	
 	public void callReader() throws FileNotFoundException, ParseException, IOException, org.json.simple.parser.ParseException {
 		
-		
+		//check if we need to read parking
 		if(inputNumber == 2 && readerIndicator[0] == 0 ) {
 			//logging
 			l.log(parkingPath);

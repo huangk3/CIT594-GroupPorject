@@ -18,7 +18,7 @@ public static boolean fileCheck(String Path) {
 public static String askCode() {
 	
 	String code = null;
-	System.out.println("Please input a code");
+	System.out.println("Please input a zipcode");
 	Scanner scan = new Scanner(System.in);
 	
 	try {
