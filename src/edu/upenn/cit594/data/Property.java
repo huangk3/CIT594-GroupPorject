@@ -6,7 +6,7 @@ public class Property extends SingleData{
 	private Double totalLivableArea;
 	
 	
-	public Property(String zipcodeIn, String marketValue, String totalLivableArea) {
+	public Property(String zipcodeIn, String totalLivableArea, String marketValue) {
 		super(zipcodeIn);
 		try {
 			this.marketValue = Double.parseDouble(marketValue);
