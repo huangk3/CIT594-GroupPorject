@@ -10,7 +10,8 @@ public class Main {
 	
 	//ask user to input the input from using interface
 	protected static UI usercase;
-	public static String logFileName;
+	
+	
 	
 	public void Runner() throws ParseException, FileNotFoundException, IOException, org.json.simple.parser.ParseException {
 		
@@ -37,9 +38,6 @@ public static void main(String[] args) throws ParseException {
 	
 	//setting up the user interface;
 	usercase = new UI(args);
-	
-	//sign name to log file
-	logFileName = args[4];
 	
 	//verify if the input is valid
 	usercase.inputHandler();

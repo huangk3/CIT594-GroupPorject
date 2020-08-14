@@ -8,8 +8,10 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 //import java.util.HashMap;
 import java.util.Set;
+
 import java.util.regex.Pattern;
 
+import edu.upenn.cit594.logging.Logger;
 import edu.upenn.cit594.processor.CsvProcessor;
 import edu.upenn.cit594.processor.DataProcessor;
 import edu.upenn.cit594.processor.JsonProcessor;
@@ -26,6 +28,7 @@ public class UI {
 	private  String parkingPath;
 	private  String propertyPath;
 	private  String populationPath;
+	public static String logFileName;
 	private int inputNumber;
 	
 	
@@ -36,7 +39,7 @@ public class UI {
 	
 	
 	//output variable for processor use
-	
+	protected Logger l;
 	
 	//this indicator is for deciding which park reader
 	private int indicator = -1;
@@ -62,11 +65,16 @@ public class UI {
 			System.exit(0);
 		}
 		
+		//set up logger
+		l = Logger.getInstance();
+		l.log(String.join(" ", args));
+		
 		//set up variables
 		fileFormat= args[0];
 		parkingPath = args[1];
 		propertyPath = args[2];
 		populationPath = args[3];
+		logFileName =  args[4];
 		
 		InputSet = new HashSet<Integer>();  
         // Add input number case into the set  
@@ -137,35 +145,31 @@ public class UI {
 	//call the processor which will call reading
 	public void createProcessor() throws ParseException, FileNotFoundException, IOException, org.json.simple.parser.ParseException {
 		
-		//test
-		/*PropertyReader propertyRd = new PropertyReader();
-		propertyRd.read(propertyPath);
 		
-		PopulationReader populationRd = new PopulationReader();
-		populationRd.read(populationPath);*/
 		
 		//check if the indicator is valid
 		if (indicator == 0) {
+			
+			 //logging
+			 l.log(populationPath);
 			
 			processor = new JsonProcessor(populationPath);
 			
 			indicator = 2;
 			
-			//ParkingJReader being used inside
-			/*jsonProcessor js = new jsonProcessor(propertyPath, populationPath);
-			js.process(parkingPath);
-			indicator = 2;*/
+			
 			
 			
 		}else if(indicator == 1){
 			
+			//logging
+			 l.log(populationPath);
+			
 			processor = new CsvProcessor(populationPath);
 			
 			indicator = 2;
-			//ParkingCReader being used inside
-			/*csvProcessor csv = new csvProcessor(propertyPath, populationPath);
-			csv.process(parkingPath);
-			indicator = 2;*/
+			
+			 
 			
 		}else {
 			
@@ -175,25 +179,41 @@ public class UI {
 		}
 		
 		
+		
+		
 	};
 	
 	public void callReader() throws FileNotFoundException, ParseException, IOException, org.json.simple.parser.ParseException {
 		
 		
 		if(inputNumber == 2 && readerIndicator[0] == 0 ) {
-		    processor.readParking(parkingPath);
+			//logging
+			l.log(parkingPath);
+		    
+			processor.readParking(parkingPath);
 		    readerIndicator[0] = 1;
+		    
+		    
 		}
 		
 		//check if we need to read Property
 		if(InputSet.contains(inputNumber) && readerIndicator[1] == 0) {
+			//logging
+			l.log(propertyPath);
+			 
 		    processor.readProperty(propertyPath);
 		    readerIndicator[1] = 1;
 		    
+		    
+		    
 		    //check if we need to read Parking
 		    if(inputNumber == 6 && readerIndicator[0] == 0) {
-		    	processor.readParking(parkingPath);
-			    readerIndicator[0] = 1;
+		    	//logging
+				l.log(parkingPath);
+		    	
+				processor.readParking(parkingPath);
+			    readerIndicator[0] = 1; 
+			    
 		    }
 		}
 		
@@ -208,12 +228,12 @@ public class UI {
 	}
 	
 	//print final output to the screen
-	public void present() {
+	/*public void present() {
 		
 		System.out.println("The program finish reading");
 		
 		
-	}
+	}*/
 
 
 
@@ -225,6 +245,8 @@ public class UI {
 		
 		try {
 			inputNumber = sc.nextInt();
+			l.log(Integer.toString(inputNumber));
+			
 			if(inputNumber == 0) {
 				System.out.println("The program is terminated by user");
 				System.exit(0);
@@ -248,7 +270,21 @@ public class UI {
 
 	public void calculate() {
 		
-		processor.process(inputNumber);
+		if(InputSet.contains(inputNumber) && inputNumber != 6) {
+			
+			//cover the case 3, 4, 5
+			String zipCode = InterfaceUtility.askCode();
+			//logging
+			l.log(zipCode);
+			//process
+			processor.process(inputNumber, zipCode);
+		
+		}else {
+			
+			//cover the case 1, 2, 6
+			processor.process(inputNumber);
+		}
+		
 		
 		
 	}
