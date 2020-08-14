@@ -1,15 +1,5 @@
-1597369575882 json /Users/zeneng/Downloads/parking.json /Users/zeneng/Downloads/properties.csv /Users/zeneng/Downloads/population.txt log.txt
-1597369578946 1
-1597369578946 /Users/zeneng/Downloads/population.txt
-1597369586606 2
-1597369586606 /Users/zeneng/Downloads/parking.json
-1597369650936 3
-1597369650939 /Users/zeneng/Downloads/properties.csv
-1597369797339 19153
-1597369802362 3
-1597369804541 19153
-1597369926223 4
-1597369930501 19153
-1597369934898 5
-1597369937253 19153
-1597369941461 6
+1597370589392 json /Users/zeneng/Downloads/parking.json /Users/zeneng/Downloads/properties.csv /Users/zeneng/Downloads/population.txt log.txt
+1597370591296 1
+1597370591322 population.txt
+1597370596140 2
+1597370596142 parking.json

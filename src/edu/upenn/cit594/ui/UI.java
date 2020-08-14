@@ -155,7 +155,7 @@ public class UI {
 		if (indicator == 0) {
 			
 			 //logging
-			 l.log(populationPath);
+			 l.log(InterfaceUtility.getNameFromPath(populationPath));
 			
 			processor = new JsonProcessor(populationPath);
 			
@@ -167,7 +167,7 @@ public class UI {
 		}else if(indicator == 1){
 			
 			//logging
-			 l.log(populationPath);
+			 l.log(InterfaceUtility.getNameFromPath(populationPath));
 			
 			processor = new CsvProcessor(populationPath);
 			
@@ -192,7 +192,7 @@ public class UI {
 		//check if we need to read parking
 		if(inputNumber == 2 && readerIndicator[0] == 0 ) {
 			//logging
-			l.log(parkingPath);
+			l.log(InterfaceUtility.getNameFromPath(parkingPath));
 		    
 			processor.readParking(parkingPath);
 		    readerIndicator[0] = 1;
@@ -203,7 +203,7 @@ public class UI {
 		//check if we need to read Property
 		if(InputSet.contains(inputNumber) && readerIndicator[1] == 0) {
 			//logging
-			l.log(propertyPath);
+			l.log(InterfaceUtility.getNameFromPath(propertyPath));
 			 
 		    processor.readProperty(propertyPath);
 		    readerIndicator[1] = 1;
@@ -213,7 +213,7 @@ public class UI {
 		    //check if we need to read Parking
 		    if(inputNumber == 6 && readerIndicator[0] == 0) {
 		    	//logging
-				l.log(parkingPath);
+				l.log(InterfaceUtility.getNameFromPath(parkingPath));
 		    	
 				processor.readParking(parkingPath);
 			    readerIndicator[0] = 1; 

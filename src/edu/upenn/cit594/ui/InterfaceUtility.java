@@ -1,6 +1,8 @@
 package edu.upenn.cit594.ui;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -34,5 +36,13 @@ public static String askCode() {
 
 
 }
+
+public static String getNameFromPath(String fullPath) {
+	
+	Path p = Paths.get(fullPath);
+	String file = p.getFileName().toString();
+	return file;
+}
+
 
 }
