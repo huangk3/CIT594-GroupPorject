@@ -51,7 +51,7 @@ public abstract class DataProcessor {
 		
 	}
 	
-	
+	//create Reader
 	protected abstract Reader createReader();
 	
 	
