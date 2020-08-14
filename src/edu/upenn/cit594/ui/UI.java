@@ -246,9 +246,11 @@ public class UI {
 		
 		System.out.println("Please input a number");
 		Scanner sc = new Scanner(System.in);
+		String input = sc.nextLine();
 		
 		try {
-			inputNumber = sc.nextInt();
+			
+			inputNumber = Integer.parseInt(input);
 			l.log(Integer.toString(inputNumber));
 			
 			if(inputNumber == 0) {
@@ -259,7 +261,7 @@ public class UI {
 				System.exit(0);	
 			}
 			
-		} catch (InputMismatchException e) {
+		} catch (NumberFormatException e) {
 		    System.out.println("Error: the input is not a valid number");
 		    System.exit(0);
 		}
